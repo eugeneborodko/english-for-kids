@@ -1,0 +1,35 @@
+.menu {
+  height: 100%;
+  padding: 140px 0 0 100px;
+
+  &_green {
+    background: linear-gradient(180deg, #0099ae, #00bf82 40%);
+  }
+
+  &_orange {
+    background: linear-gradient(180deg, #fd6a63, #feb46b 40%);
+  }
+
+  &__link {
+    display: block;
+    font-size: 28px;
+    color: #ffffff;
+    line-height: 50px;
+  }
+}
+
+.menu-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 380px;
+  height: 100vh;
+  transform: translateX(0);
+  transition: transform 0.4s;
+
+  &_hidden {
+    transform: translateX(-380px);
+    transition: transform 0.4s;
+  }
+}

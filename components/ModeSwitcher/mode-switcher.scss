@@ -14,10 +14,12 @@
     &:checked + .mode-switcher__slider::before {
       content: 'play';
       transform: translateX(62px);
+      transition: transform 0.4s;
     }
 
     &:checked + .mode-switcher__slider::after {
       transform: translateX(-85px);
+      transition: transform 0.4s;
     }
   }
 
@@ -38,6 +40,7 @@
       font-weight: bold;
       color: #ffffff;
       text-transform: uppercase;
+      transition: transform 0.4s;
     }
 
     &::after {
@@ -49,6 +52,7 @@
       height: 35px;
       background-color: #ffffff;
       border-radius: 50%;
+      transition: transform 0.4s;
     }
   }
 }
