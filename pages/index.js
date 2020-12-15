@@ -1,6 +1,12 @@
+import Header from './../components/Header/Header'
+
 const HomePage = () => {
   return (
-    <div>Entry point</div>
+    <>
+      <div className="container">
+        <Header />
+      </div>
+    </>
   )
 }
 
