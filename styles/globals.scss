@@ -19,4 +19,8 @@ a {
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 20px;
+
+  &_big {
+    max-width: 1490px;
+  }
 }
