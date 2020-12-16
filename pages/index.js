@@ -1,20 +1,13 @@
-import Header from './../components/Header/Header'
+import Layout from './../components/Layout/Layout'
 import CardsContainer from './../components/CardsContainer/CardsContainer'
-import Menu from './../components/Menu/Menu'
 
 const HomePage = ({ data }) => {
   return (
-    <>
-      <Menu />
-      <div className="container">
-        <Header />
+    <Layout title="Main Page">
+      <div className="container container_big">
+        <CardsContainer data={data} />
       </div>
-      <main className="main">
-        <div className="container container_big">
-          <CardsContainer data={data} />
-        </div>
-      </main>
-    </>
+    </Layout>
   )
 }
 
