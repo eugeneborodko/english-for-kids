@@ -1,11 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { changeMode } from './../../store/mode-switcher/actions'
 
 import './mode-switcher.scss'
 
 const ModeSwitcher = () => {
-  const mode = useSelector((state) => state.mode)
   const dispatch = useDispatch()
 
   return (

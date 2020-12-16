@@ -1,6 +1,11 @@
+import Layout from './../../components/Layout/Layout'
+import FlipCardsContainer from './../../components/FlipCardsContrainer/FlipCardsContainer'
+
 const Category = ({ data }) => {
   return (
-    <div>{JSON.stringify(data)}</div>
+    <Layout>
+      <FlipCardsContainer />
+    </Layout>
   )
 }
 
