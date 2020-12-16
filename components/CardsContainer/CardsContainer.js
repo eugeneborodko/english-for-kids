@@ -12,13 +12,21 @@ const CardsContainer = ({ data }) => {
     'Emotions',
   ]
 
-  const categories = data.map((item, index) => item[index])
+  const cardContent = []
+
+  for (let key in data) {
+    cardContent.push(data[key])
+  }
 
   return (
     <div className="cards-container">
-      {categories.map((category, index) => {
-        return <Card caption={captions[index]} image={category.image} key={index} />
-      })}
+      {
+        cardContent.map((card, index) => {
+          return (
+            <Card caption={captions[index]} image={card[0].image} key={index} />
+          )
+        })
+      }
     </div>
   )
 }
