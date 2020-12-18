@@ -4,10 +4,15 @@ import { rotateTrainCard } from './../../store/train-card/actions'
 
 import './train-card.scss'
 
-const TrainCard = ({ word, translation, image }) => {
+const TrainCard = ({ word, translation, image, audio, index }) => {
   const isBack = useSelector((state) => state.trainCard.isBack)
   const isPlay = useSelector((state) => state.mode.isPlay)
   const dispatch = useDispatch()
+
+  const handlePlayAudio = () => {
+    const audio = document.querySelector(`.train-card__audio[data-audio="${index}"]`)
+    audio.play()
+  }
 
   return (
     <>
@@ -16,10 +21,12 @@ const TrainCard = ({ word, translation, image }) => {
           <div
             className={isBack ? 'train-card train-card_flipped' : 'train-card'}
           >
+            <audio className="train-card__audio" src={`../../static/${audio}`} data-audio={index}></audio>
             <div className="train-card__item train-card__item_front">
               <img
                 className="train-card__image"
                 src={`../../static/${image}`}
+                onClick={() => { handlePlayAudio() }}
               />
               <span className="train-card__caption">{word}</span>
               <div

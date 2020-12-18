@@ -13,7 +13,9 @@ const TrainCardsContainer = ({ data }) => {
                 word={item.word}
                 translation={item.translation}
                 image={item.image}
+                audio={item.audioSrc}
                 key={index}
+                index={index}
               />
             )
           })}
