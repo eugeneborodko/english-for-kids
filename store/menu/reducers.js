@@ -1,7 +1,7 @@
 import { CHANGE_MENU_STATE } from './actions'
 
 const initialState = {
-  isShowMenu: false
+  isShowMenu: false,
 }
 
 export const menu = (state = initialState, action) => {
@@ -9,9 +9,10 @@ export const menu = (state = initialState, action) => {
     case CHANGE_MENU_STATE:
       return {
         ...state,
-        isShowMenu: !state.isShowMenu
+        isShowMenu: !state.isShowMenu,
       }
 
-    default: return state
+    default:
+      return state
   }
 }

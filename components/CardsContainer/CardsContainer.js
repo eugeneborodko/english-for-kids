@@ -20,13 +20,11 @@ const CardsContainer = ({ data }) => {
 
   return (
     <div className="cards-container">
-      {
-        cardContent.map((card, index) => {
-          return (
-            <Card caption={captions[index]} image={card[0].image} key={index} />
-          )
-        })
-      }
+      {cardContent.map((card, index) => {
+        return (
+          <Card caption={captions[index]} image={card[0].image} key={index} />
+        )
+      })}
     </div>
   )
 }
