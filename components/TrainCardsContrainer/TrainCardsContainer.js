@@ -5,8 +5,8 @@ import './train-cards-container.scss'
 const TrainCardsContainer = ({ data }) => {
   return (
     <>
-      <div className="container container_big">
-        <div className="train-cards-container">
+      <div className="container">
+        <div className="train-cards__container">
           {data.map((item, index) => {
             return (
               <TrainCard
