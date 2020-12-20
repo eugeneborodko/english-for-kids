@@ -3,7 +3,7 @@
   height: 300px;
   margin: 0 0 40px;
   border-radius: 10px;
-  perspective: 1000px; 
+  perspective: 1000px;
   cursor: pointer;
 
   &__inner {
@@ -39,7 +39,7 @@
     width: 40px;
     height: 25px;
     margin-left: 20px;
-    background: url("/static/img/rotate.svg") no-repeat center;
+    background: url('/static/img/rotate.svg') no-repeat center;
     background-size: contain;
     filter: invert(100%);
   }
@@ -54,7 +54,7 @@
     font-size: 26px;
     font-weight: bold;
     color: #ffffff;
-    background: linear-gradient(to bottom right, #FFCE00, #FE4880);
+    background: linear-gradient(to bottom right, #ffce00, #fe4880);
   }
 
   &_back {
@@ -64,4 +64,10 @@
   &:hover &__inner {
     transform: rotateY(180deg);
   }
+}
+
+.play-card {
+  height: 100%;
+  margin-bottom: 40px;
+  object-fit: contain;
 }

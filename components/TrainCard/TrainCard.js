@@ -7,16 +7,28 @@ const TrainCard = ({ word, translation, image, audio, index }) => {
   const isPlay = useSelector((state) => state.mode.isPlay)
 
   const handlePlayAudio = () => {
-    const audio = document.querySelector(`.train-card__audio[data-audio="${index}"]`)
+    const audio = document.querySelector(
+      `.train-card__audio[data-audio="${index}"]`,
+    )
     audio.play()
   }
 
   return (
     <>
-      {!isPlay && (
+      {!isPlay ? (
         <div className="train-card">
-          <div className={isBack ? 'train-card__inner train-card__inner_flipped' : 'train-card__inner'}>
-            <audio className="train-card__audio" src={`../../static/${audio}`} data-audio={index} />
+          <div
+            className={
+              isBack
+                ? 'train-card__inner train-card__inner_flipped'
+                : 'train-card__inner'
+            }
+          >
+            <audio
+              className="train-card__audio"
+              src={`../../static/${audio}`}
+              data-audio={index}
+            />
             <div className="train-card train-card_front">
               <img
                 className="train-card__image"
@@ -30,7 +42,9 @@ const TrainCard = ({ word, translation, image, audio, index }) => {
               <img
                 className="train-card__image"
                 src={`../../static/${image}`}
-                onClick={() => { handlePlayAudio() }}
+                onClick={() => {
+                  handlePlayAudio()
+                }}
               />
               <div className="train-card__word">
                 <span className="train-card__caption">{translation}</span>
@@ -38,6 +52,15 @@ const TrainCard = ({ word, translation, image, audio, index }) => {
             </div>
           </div>
         </div>
+      ) : (
+        <>
+          <img
+            className="play-card"
+            src={`../../static/${image}`}
+            width="300"
+            height="300"
+          />
+        </>
       )}
     </>
   )
