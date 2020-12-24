@@ -24,3 +24,30 @@ a {
     max-width: 1490px;
   }
 }
+
+.btn {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 20px;
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  border-radius: 43px;
+  background: linear-gradient(40deg, #ffd86f, #fc6262);
+  outline: 0;
+  cursor: pointer;
+
+  &__text {
+    &_hidden {
+      display: none;
+    }
+  }
+
+  &__img {
+    &_hidden {
+      display: none;
+    }
+  }
+}
