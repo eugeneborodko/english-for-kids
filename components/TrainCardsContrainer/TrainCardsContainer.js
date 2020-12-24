@@ -10,24 +10,22 @@ const TrainCardsContainer = ({ data }) => {
   const isPlay = useSelector((state) => state.mode.isPlay)
   const isStarted = useSelector((state) => state.startBtn.isStarted)
   const dispatch = useDispatch()
-  let randomData
 
-  const handleShuffleData = (data) => {
-    const sliced = data.slice()
-
-    for (let i = sliced.length - 1; i > 0; i--) {
+  const handleShuffleData = (cardData) => {
+    for (let i = cardData.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1))
-      let temp = sliced[j]
-      sliced[j] = sliced[i]
-      sliced[i] = temp
+      let temp = cardData[j]
+      cardData[j] = cardData[i]
+      cardData[i] = temp
     }
-
-    randomData = isPlay ? sliced.slice() : data.slice()
   }
 
-  handleShuffleData(data)
-
-  data = randomData.slice()
+  const handlePlayAudio = (index) => {
+    const audio = document.querySelector(
+      `.audio[data-audio="${index}"]`,
+    )
+    audio.play()
+  }
 
   return (
     <>
@@ -42,6 +40,7 @@ const TrainCardsContainer = ({ data }) => {
                 audio={item.audioSrc}
                 key={index}
                 index={index}
+                handlePlayAudio={handlePlayAudio}
               />
             )
           })}
@@ -51,6 +50,7 @@ const TrainCardsContainer = ({ data }) => {
             className="btn"
             onClick={() => {
               dispatch(startGame())
+              handleShuffleData(data)
             }}
           >
             <span

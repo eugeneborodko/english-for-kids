@@ -2,16 +2,9 @@ import { useSelector } from 'react-redux'
 
 import './train-card.scss'
 
-const TrainCard = ({ word, translation, image, audio, index }) => {
+const TrainCard = ({ word, translation, image, audio, index, handlePlayAudio }) => {
   const isBack = useSelector((state) => state.trainCard.isBack)
   const isPlay = useSelector((state) => state.mode.isPlay)
-
-  const handlePlayAudio = () => {
-    const audio = document.querySelector(
-      `.train-card__audio[data-audio="${index}"]`,
-    )
-    audio.play()
-  }
 
   return (
     <>
@@ -25,7 +18,7 @@ const TrainCard = ({ word, translation, image, audio, index }) => {
             }
           >
             <audio
-              className="train-card__audio"
+              className="audio"
               src={`../../static/${audio}`}
               data-audio={index}
             />
@@ -43,7 +36,7 @@ const TrainCard = ({ word, translation, image, audio, index }) => {
                 className="train-card__image"
                 src={`../../static/${image}`}
                 onClick={() => {
-                  handlePlayAudio()
+                  handlePlayAudio(index)
                 }}
               />
               <div className="train-card__word">
@@ -53,15 +46,20 @@ const TrainCard = ({ word, translation, image, audio, index }) => {
           </div>
         </div>
       ) : (
-        <>
-          <img
-            className="play-card"
-            src={`../../static/${image}`}
-            width="300"
-            height="300"
-          />
-        </>
-      )}
+          <div className="play-card">
+            <img
+              className="play-card__image"
+              src={`../../static/${image}`}
+              width="300"
+              height="300"
+            />
+            <audio
+              className="audio"
+              src={`../../static/${audio}`}
+              data-audio={index}
+            />
+          </div>
+        )}
     </>
   )
 }
