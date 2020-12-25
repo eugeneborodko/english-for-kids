@@ -1,21 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import TrainCard from './../TrainCard/TrainCard'
+import CurrentWord from './../CurrentWord/CurrentWord'
 
 import './train-cards-container.scss'
 
 const TrainCardsContainer = ({ data }) => {
   const isPlay = useSelector((state) => state.mode.isPlay)
-  const dispatch = useDispatch()
-
-  const handleShuffleData = (cardData) => {
-    for (let i = cardData.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1))
-      let temp = cardData[j]
-      cardData[j] = cardData[i]
-      cardData[i] = temp
-    }
-  }
 
   const handlePlayAudio = (index) => {
     const audio = document.querySelector(`.audio[data-audio="${index}"]`)
@@ -40,6 +31,9 @@ const TrainCardsContainer = ({ data }) => {
             )
           })}
         </div>
+        {isPlay &&
+          <CurrentWord />
+        }
       </div>
     </>
   )

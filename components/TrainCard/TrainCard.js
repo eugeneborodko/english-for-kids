@@ -1,4 +1,6 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { setWord } from './../../store/current-word/actions'
 
 import './train-card.scss'
 
@@ -12,6 +14,7 @@ const TrainCard = ({
 }) => {
   const isBack = useSelector((state) => state.trainCard.isBack)
   const isPlay = useSelector((state) => state.mode.isPlay)
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -53,20 +56,24 @@ const TrainCard = ({
           </div>
         </div>
       ) : (
-        <div className="play-card">
-          <img
-            className="play-card__image"
-            src={`../../static/${image}`}
-            width="300"
-            height="300"
-          />
-          <audio
-            className="audio"
-            src={`../../static/${audio}`}
-            data-audio={index}
-          />
-        </div>
-      )}
+          <div className="play-card">
+            <img
+              className="play-card__image"
+              src={`../../static/${image}`}
+              width="300"
+              height="300"
+              onClick={() => {
+                handlePlayAudio(index)
+                dispatch(setWord(word))
+              }}
+            />
+            <audio
+              className="audio"
+              src={`../../static/${audio}`}
+              data-audio={index}
+            />
+          </div>
+        )}
     </>
   )
 }
