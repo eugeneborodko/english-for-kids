@@ -21,9 +21,7 @@ const TrainCardsContainer = ({ data }) => {
   }
 
   const handlePlayAudio = (index) => {
-    const audio = document.querySelector(
-      `.audio[data-audio="${index}"]`,
-    )
+    const audio = document.querySelector(`.audio[data-audio="${index}"]`)
     audio.play()
   }
 

@@ -7,7 +7,6 @@ const Menu = () => {
   const isShowMenu = useSelector((state) => state.menu.isShowMenu)
 
   const captions = [
-    'Main Page',
     'Action (set A)',
     'Action (set B)',
     'Animal (set A)',
@@ -25,7 +24,14 @@ const Menu = () => {
       <div className={isPlay ? 'menu menu_orange' : 'menu menu_green'}>
         {captions.map((caption, index) => {
           return (
-            <a className="menu__link" href="#" key={index}>
+            <a
+              className="menu__link"
+              href={`/category/${caption
+                .replace(/[{()}]/g, '')
+                .replace(/ /g, '-')
+                .toLowerCase()}`}
+              key={index}
+            >
               {caption}
             </a>
           )
