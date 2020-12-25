@@ -1,14 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux'
 
-import { startGame } from './../../store/start-btn/actions'
-
 import TrainCard from './../TrainCard/TrainCard'
 
 import './train-cards-container.scss'
 
 const TrainCardsContainer = ({ data }) => {
   const isPlay = useSelector((state) => state.mode.isPlay)
-  const isStarted = useSelector((state) => state.startBtn.isStarted)
   const dispatch = useDispatch()
 
   const handleShuffleData = (cardData) => {
@@ -43,28 +40,6 @@ const TrainCardsContainer = ({ data }) => {
             )
           })}
         </div>
-        {isPlay && (
-          <button
-            className="btn"
-            onClick={() => {
-              dispatch(startGame())
-              handleShuffleData(data)
-            }}
-          >
-            <span
-              className={isStarted ? 'btn__text btn__text_hidden' : 'btn__text'}
-            >
-              start game
-            </span>
-            <img
-              className={isStarted ? 'btn__img' : 'btn__img btn__img_hidden'}
-              src="/static/img/repeat.svg"
-              alt="repeat"
-              width="40"
-              height="25"
-            />
-          </button>
-        )}
       </div>
     </>
   )
