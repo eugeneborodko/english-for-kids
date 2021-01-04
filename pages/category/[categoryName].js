@@ -11,11 +11,17 @@ const Category = ({ data }) => {
 
 export default Category
 
-Category.getInitialProps = async ({ query }) => {
-  const response = await fetch(
-    `http://localhost:3000/api/data/${query.categoryName}`,
-  )
-  const data = await response.json()
+Category.getInitialProps = async (ctx) => {
+  let host = ''
+
+  if (ctx.req) {
+    host = `${ctx.req?.connection.encrypted ? 'https://' : 'http://'}${
+      ctx.req.headers.host
+    }`
+  }
+
+  const req = await fetch(`${host}/api/data/${ctx.query.categoryName}`)
+  const data = await req.json()
 
   return {
     data,

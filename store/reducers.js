@@ -9,5 +9,5 @@ export default combineReducers({
   mode,
   menu,
   trainCard,
-  currentWord
+  currentWord,
 })

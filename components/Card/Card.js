@@ -17,7 +17,9 @@ const Card = ({ image, caption }) => {
           <img className={styles['card__image']} src={`../static/${image}`} />
           <span
             className={
-              isPlay ? `${styles['card__bg']} ${styles['card__bg_orange']}` : `${styles['card__bg']} ${styles['card__bg_green']}`
+              isPlay
+                ? `${styles['card__bg']} ${styles['card__bg_orange']}`
+                : `${styles['card__bg']} ${styles['card__bg_green']}`
             }
           ></span>
           <span className={styles['card__caption']}>{caption}</span>

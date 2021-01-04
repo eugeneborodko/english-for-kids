@@ -18,10 +18,18 @@ const Menu = () => {
   return (
     <aside
       className={
-        isShowMenu ? styles['menu-container'] : `${styles['menu-container']} ${styles['menu-container_hidden']}`
+        isShowMenu
+          ? styles['menu-container']
+          : `${styles['menu-container']} ${styles['menu-container_hidden']}`
       }
     >
-      <div className={isPlay ? `${styles['menu']} ${styles['menu_orange']}` : `${styles['menu']} ${styles['menu_green']}`}>
+      <div
+        className={
+          isPlay
+            ? `${styles['menu']} ${styles['menu_orange']}`
+            : `${styles['menu']} ${styles['menu_green']}`
+        }
+      >
         {captions.map((caption, index) => {
           return (
             <a

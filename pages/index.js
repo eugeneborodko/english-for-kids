@@ -11,9 +11,17 @@ const HomePage = ({ data }) => {
   )
 }
 
-HomePage.getInitialProps = async () => {
-  const response = await fetch('http://localhost:3000/api/data')
-  const data = await response.json()
+HomePage.getInitialProps = async (ctx) => {
+  let host = ''
+
+  if (ctx.req) {
+    host = `${ctx.req?.connection.encrypted ? 'https://' : 'http://'}${
+      ctx.req.headers.host
+    }`
+  }
+
+  const req = await fetch(`${host}/api/data`)
+  const data = await req.json()
 
   return {
     data: data,

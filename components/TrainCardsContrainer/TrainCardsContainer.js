@@ -9,7 +9,9 @@ const TrainCardsContainer = ({ data }) => {
   const isPlay = useSelector((state) => state.mode.isPlay)
 
   const handlePlayAudio = (index) => {
-    const audio = document.querySelector(`.train-card_audio__QJJSw[data-audio="${index}"]`)
+    const audio = document.querySelector(
+      `.train-card_audio__QJJSw[data-audio="${index}"]`,
+    )
     audio.play()
   }
 
@@ -31,9 +33,7 @@ const TrainCardsContainer = ({ data }) => {
             )
           })}
         </div>
-        {isPlay &&
-          <CurrentWord />
-        }
+        {isPlay && <CurrentWord />}
       </div>
     </>
   )

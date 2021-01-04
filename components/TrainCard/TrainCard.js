@@ -32,7 +32,9 @@ const TrainCard = ({
               src={`../../static/${audio}`}
               data-audio={index}
             />
-            <div className={`${styles['train-card']} ${styles['train-card_front']}`}>
+            <div
+              className={`${styles['train-card']} ${styles['train-card_front']}`}
+            >
               <img
                 className={styles['train-card__image']}
                 src={`../../static/${image}`}
@@ -41,7 +43,9 @@ const TrainCard = ({
                 <span className={styles['train-card__caption']}>{word}</span>
               </div>
             </div>
-            <div className={`${styles['train-card']} ${styles['train-card_back']}`}>
+            <div
+              className={`${styles['train-card']} ${styles['train-card_back']}`}
+            >
               <img
                 className={styles['train-card__image']}
                 src={`../../static/${image}`}
@@ -50,30 +54,32 @@ const TrainCard = ({
                 }}
               />
               <div className={styles['train-card__word']}>
-                <span className={styles['train-card__caption']}>{translation}</span>
+                <span className={styles['train-card__caption']}>
+                  {translation}
+                </span>
               </div>
             </div>
           </div>
         </div>
       ) : (
-          <div className={styles['play-card']}>
-            <img
-              className={styles['play-card__image']}
-              src={`../../static/${image}`}
-              width="300"
-              height="300"
-              onClick={() => {
-                handlePlayAudio(index)
-                dispatch(setWord(word))
-              }}
-            />
-            <audio
-              className={styles['audio']}
-              src={`../../static/${audio}`}
-              data-audio={index}
-            />
-          </div>
-        )}
+        <div className={styles['play-card']}>
+          <img
+            className={styles['play-card__image']}
+            src={`../../static/${image}`}
+            width="300"
+            height="300"
+            onClick={() => {
+              handlePlayAudio(index)
+              dispatch(setWord(word))
+            }}
+          />
+          <audio
+            className={styles['audio']}
+            src={`../../static/${audio}`}
+            data-audio={index}
+          />
+        </div>
+      )}
     </>
   )
 }
