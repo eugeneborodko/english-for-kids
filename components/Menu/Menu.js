@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import './menu.scss'
+import styles from './menu.module.scss'
 
 const Menu = () => {
   const isPlay = useSelector((state) => state.mode.isPlay)
@@ -18,14 +18,14 @@ const Menu = () => {
   return (
     <aside
       className={
-        isShowMenu ? 'menu-container' : 'menu-container menu-container_hidden'
+        isShowMenu ? styles['menu-container'] : `${styles['menu-container']} ${styles['menu-container_hidden']}`
       }
     >
-      <div className={isPlay ? 'menu menu_orange' : 'menu menu_green'}>
+      <div className={isPlay ? `${styles['menu']} ${styles['menu_orange']}` : `${styles['menu']} ${styles['menu_green']}`}>
         {captions.map((caption, index) => {
           return (
             <a
-              className="menu__link"
+              className={styles['menu__link']}
               href={`/category/${caption
                 .replace(/[{()}]/g, '')
                 .replace(/ /g, '-')

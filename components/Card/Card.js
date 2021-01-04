@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
 
-import './card.scss'
+import styles from './card.module.scss'
 
 const Card = ({ image, caption }) => {
   const isPlay = useSelector((state) => state.mode.isPlay)
@@ -13,14 +13,14 @@ const Card = ({ image, caption }) => {
   return (
     <>
       <Link href={'/category/[categoryName]'} as={`/category/${url}`}>
-        <a className="card">
-          <img className="card__image" src={`../static/${image}`} />
+        <a className={styles['card']}>
+          <img className={styles['card__image']} src={`../static/${image}`} />
           <span
             className={
-              isPlay ? 'card__bg card__bg_orange' : 'card__bg card__bg_green'
+              isPlay ? `${styles['card__bg']} ${styles['card__bg_orange']}` : `${styles['card__bg']} ${styles['card__bg_green']}`
             }
           ></span>
-          <span className="card__caption">{caption}</span>
+          <span className={styles['card__caption']}>{caption}</span>
         </a>
       </Link>
     </>

@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux'
 
-import './current-word.scss'
+import styles from './current-word.module.scss'
 
 const CurrentWord = () => {
   const currentWord = useSelector((state) => state.currentWord.currentWord)
 
   return (
-    <div className="current-word">{currentWord}</div>
+    <div className={styles['current-word']}>{currentWord}</div>
   )
 }
 

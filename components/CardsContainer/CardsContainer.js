@@ -1,6 +1,6 @@
 import Card from './../Card/Card'
 
-import './cards-container.scss'
+import styles from './cards-container.module.scss'
 
 const CardsContainer = ({ data }) => {
   const captions = [
@@ -19,7 +19,7 @@ const CardsContainer = ({ data }) => {
   }
 
   return (
-    <div className="cards-container">
+    <div className={styles['cards-container']}>
       {cardContent.map((card, index) => {
         return (
           <Card caption={captions[index]} image={card[0].image} key={index} />

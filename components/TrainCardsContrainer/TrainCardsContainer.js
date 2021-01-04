@@ -3,20 +3,20 @@ import { useSelector } from 'react-redux'
 import TrainCard from './../TrainCard/TrainCard'
 import CurrentWord from './../CurrentWord/CurrentWord'
 
-import './train-cards-container.scss'
+import styles from './train-cards-container.module.scss'
 
 const TrainCardsContainer = ({ data }) => {
   const isPlay = useSelector((state) => state.mode.isPlay)
 
   const handlePlayAudio = (index) => {
-    const audio = document.querySelector(`.audio[data-audio="${index}"]`)
+    const audio = document.querySelector(`.train-card_audio__QJJSw[data-audio="${index}"]`)
     audio.play()
   }
 
   return (
     <>
       <div className="container">
-        <div className="train-cards__container">
+        <div className={styles['train-cards__container']}>
           {data.map((item, index) => {
             return (
               <TrainCard

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { setWord } from './../../store/current-word/actions'
 
-import './train-card.scss'
+import styles from './train-card.module.scss'
 
 const TrainCard = ({
   word,
@@ -19,46 +19,46 @@ const TrainCard = ({
   return (
     <>
       {!isPlay ? (
-        <div className="train-card">
+        <div className={styles['train-card']}>
           <div
             className={
               isBack
-                ? 'train-card__inner train-card__inner_flipped'
-                : 'train-card__inner'
+                ? `${styles['train-card__inner']} ${styles['train-card__inner_flipped']}`
+                : styles['train-card__inner']
             }
           >
             <audio
-              className="audio"
+              className={styles['audio']}
               src={`../../static/${audio}`}
               data-audio={index}
             />
-            <div className="train-card train-card_front">
+            <div className={`${styles['train-card']} ${styles['train-card_front']}`}>
               <img
-                className="train-card__image"
+                className={styles['train-card__image']}
                 src={`../../static/${image}`}
               />
-              <div className="train-card__word">
-                <span className="train-card__caption">{word}</span>
+              <div className={styles['train-card__word']}>
+                <span className={styles['train-card__caption']}>{word}</span>
               </div>
             </div>
-            <div className="train-card train-card_back">
+            <div className={`${styles['train-card']} ${styles['train-card_back']}`}>
               <img
-                className="train-card__image"
+                className={styles['train-card__image']}
                 src={`../../static/${image}`}
                 onClick={() => {
                   handlePlayAudio(index)
                 }}
               />
-              <div className="train-card__word">
-                <span className="train-card__caption">{translation}</span>
+              <div className={styles['train-card__word']}>
+                <span className={styles['train-card__caption']}>{translation}</span>
               </div>
             </div>
           </div>
         </div>
       ) : (
-          <div className="play-card">
+          <div className={styles['play-card']}>
             <img
-              className="play-card__image"
+              className={styles['play-card__image']}
               src={`../../static/${image}`}
               width="300"
               height="300"
@@ -68,7 +68,7 @@ const TrainCard = ({
               }}
             />
             <audio
-              className="audio"
+              className={styles['audio']}
               src={`../../static/${audio}`}
               data-audio={index}
             />
