@@ -1,0 +1,56 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.checkbox {
+  display: none;
+
+  &:checked + .slider {
+    background: linear-gradient(40deg, #ffd86f, #fc6262);
+  }
+
+  &:checked + .slider::before {
+    content: 'play';
+    transform: translate(15px, -50%);
+  }
+
+  &:checked + .slider::after {
+    transform: translate(-80px, -50%)
+  }
+}
+
+.slider {
+  position: relative;
+  width: 130px;
+  height: 44px;
+  background: linear-gradient(40deg, #00bf82, #0099ae);
+  border-radius: 24px;
+  cursor: pointer;
+
+  &::before {
+    content: 'train';
+    position: absolute;
+    top: 50%;
+    left: 48px;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: #ffffff;
+    text-transform: uppercase;
+    transition: transform 0.5s;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+    width: 27px;
+    height: 27px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.5s;
+  }
+}
