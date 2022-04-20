@@ -8,7 +8,7 @@ export const cardsApi = createApi({
     baseUrl: API_ROUTE,
   }),
   endpoints: (builder) => ({
-    fetchCards: builder.query<Card, string>({
+    fetchCards: builder.query<Card[], string>({
       query: (category: string) => ({
         url: category
       }),
