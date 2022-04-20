@@ -1,14 +1,13 @@
 import { FC } from 'react'
-import PreviewCardList from '../PreviewCardList/PreviewCardList'
-import Header from '../Header/Header'
+import { BrowserRouter as Router } from 'react-router-dom'
+import AppRouter from '../AppRouter/AppRouter'
 import './App.scss'
 
 const App: FC = () => {
   return (
-    <>
-      <Header />
-      <PreviewCardList />
-    </>
+    <Router>
+      <AppRouter />
+    </Router>
   )
 }
 

@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { APP_ROUTE } from '../constants/internalLinks'
+import { API_ROUTE } from '../constants/internalLinks'
 import { Card } from '../models/Card'
 
 export const cardsApi = createApi({
   reducerPath: 'cardsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: APP_ROUTE,
+    baseUrl: API_ROUTE,
   }),
   endpoints: (builder) => ({
     fetchCards: builder.query<Card, string>({
