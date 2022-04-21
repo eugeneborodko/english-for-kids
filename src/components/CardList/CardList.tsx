@@ -1,11 +1,13 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useContext } from 'react'
+import { AppContext, ContextProps } from '../../context'
 import { useFetchCardsQuery } from '../../services/CardsService'
 import CardItem from '../CardItem/CardItem'
 import Spinner from '../Spinner/Spinner'
 import classes from './CardList.module.scss'
 
 const CardList: FC = () => {
-  const { data: cards, error, isLoading } = useFetchCardsQuery('clothes')
+  const {currentCategory} = useContext(AppContext) as ContextProps
+  const { data: cards, error, isLoading } = useFetchCardsQuery(currentCategory)
 
   return (
     <>
