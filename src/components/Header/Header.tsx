@@ -4,7 +4,7 @@ import classes from './Header.module.scss'
 import { useActions } from '../../hooks/useActions'
 
 const Header: FC = () => {
-  const {setIsPlayMode} = useActions()
+  const { setIsPlayMode } = useActions()
 
   const onSelectGameMode = () => {
     setIsPlayMode()
