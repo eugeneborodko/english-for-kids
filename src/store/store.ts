@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { cardsApi } from '../services/CardsService'
 import { previewCardsApi } from '../services/PreviewCardsService'
-import gameModeSlice from './gameModeSlice'
+import gameModeSlice from './slices/gameModeSlice'
 
 export const store = configureStore({
   reducer: {

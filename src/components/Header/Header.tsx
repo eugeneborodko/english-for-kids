@@ -1,14 +1,13 @@
 import { FC } from 'react'
-import { useDispatch } from 'react-redux'
 import Container from '../Container/Container'
-import { setIsPlayMode } from '../../store/gameModeSlice'
 import classes from './Header.module.scss'
+import { useActions } from '../../hooks/useActions'
 
 const Header: FC = () => {
-  const dispatch = useDispatch()
+  const {setIsPlayMode} = useActions()
 
   const onSelectGameMode = () => {
-    dispatch(setIsPlayMode())
+    setIsPlayMode()
   }
 
   return (

@@ -2,8 +2,7 @@ import { FC, useContext } from 'react'
 import { PreviewCard } from '../../models/PreviewCard'
 import { Link } from 'react-router-dom'
 import { AppContext, ContextProps } from '../../context'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store/store'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
 import classes from './PreviewCardsItem.module.scss'
 
 interface PreviewCardsItemProps {
@@ -11,7 +10,7 @@ interface PreviewCardsItemProps {
 }
 
 const PreviewCardsItem: FC<PreviewCardsItemProps> = ({ card }) => {
-  const { isPlayMode } = useSelector((state: RootState) => state.gameMode)
+  const {isPlayMode} = useTypedSelector((state) => state.gameMode)
   const { setCurrentCategory } = useContext(AppContext) as ContextProps
 
   const cardClass = [classes.card]
