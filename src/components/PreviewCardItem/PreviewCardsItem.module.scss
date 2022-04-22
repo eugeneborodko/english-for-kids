@@ -17,6 +17,12 @@
     height: 45%;
     background: linear-gradient(180deg, #0099ae, #00bf82 40%);
   }
+
+  &PlayMode {
+    &::before {
+      background: linear-gradient(40deg, #ffd86f, #fc6262);
+    }
+  }
 }
 
 .image {
