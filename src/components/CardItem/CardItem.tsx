@@ -1,44 +1,35 @@
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef } from 'react'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { Card } from '../../models/Card'
-import CardContent from '../CardContent/CardContent'
-import classes from './CardItem.module.scss'
+import PlayCard from '../PlayCard/PlayCard'
+import TrainCard from '../TrainCard/TrainCard'
 
 interface CardItemProps {
   card: Card
+  randomCards?: number[]
+  index?: number
 }
 
-const CardItem: FC<CardItemProps> = ({ card }) => {
-  const [isFlipped, setIsFlipped] = useState<boolean>(false)
+const CardItem: FC<CardItemProps> = ({ card, randomCards, index }) => {
+  const { isPlayMode } = useTypedSelector((state) => state.gameMode)
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const innerClass = [classes.inner]
-
-  if (isFlipped) {
-    innerClass.push(classes.innerFlipped)
-  }
-
-  const onSelectCard = () => {
-    audioRef.current?.play()
-    setIsFlipped(true)
-  }
-
-  const onCardLeave = () => {
-    if (isFlipped) {
-      setIsFlipped(false)
+  useEffect(() => {
+    if (isPlayMode && randomCards?.length) {
+      if (index === randomCards[0]) {
+        audioRef.current?.play()
+      }
     }
-  }
+  }, [randomCards])
 
   return (
-    <div
-      className={classes.card}
-      onClick={onSelectCard}
-      onMouseLeave={onCardLeave}
-    >
-      <div className={innerClass.join(' ')}>
-        <CardContent card={card} ref={audioRef} />
-        <CardContent card={card} isBackSide />
-      </div>
-    </div>
+    <>
+      {isPlayMode ? (
+        <PlayCard card={card} ref={audioRef} />
+      ) : (
+        <TrainCard card={card} ref={audioRef} />
+      )}
+    </>
   )
 }
 

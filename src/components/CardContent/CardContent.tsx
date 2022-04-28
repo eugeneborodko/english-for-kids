@@ -1,10 +1,9 @@
-import { forwardRef, RefObject } from 'react'
+import { forwardRef } from 'react'
 import { Card } from '../../models/Card'
 import classes from './CardContent.module.scss'
 
 interface CardContentProps {
   card: Card
-  ref?: RefObject<HTMLAudioElement>
   isBackSide?: boolean
 }
 

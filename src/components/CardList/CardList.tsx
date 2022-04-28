@@ -1,4 +1,4 @@
-import { FC, ReactNode, useContext, useEffect, useState } from 'react'
+import { FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext, ContextProps } from '../../context'
 import { getRandomNumber } from '../../helpers/getRandomNumber'
@@ -16,30 +16,33 @@ const CardList: FC = () => {
   const { isPlayMode } = useTypedSelector((state) => state.gameMode)
   const { currentCategory } = useContext(AppContext) as ContextProps
   const [cardsOrder, setCardsOrder] = useState<number[]>([])
+  const [randomCards, setRandomCards] = useState<number[]>([])
   const { id } = useParams<CardsPageParams>()
   const { data: cards, error, isLoading } = useFetchCardsQuery(currentCategory || id)
 
-  const randomizeCards = () => {
-    if (isPlayMode) {
-      const cardsLength = cards?.length || 8
+  const generateRandomOrderCards = useMemo(() => {
+    const cardsLength = cards?.length || 8
 
-      if (!!cardsLength) {
-        const cardsIndexes: number[] = []
+    if (!!cardsLength) {
+      const cardsIndexes: number[] = []
 
-        while (cardsIndexes.length < cardsLength) {
-          const randomNumber = getRandomNumber(0, cardsLength)
+      while (cardsIndexes.length < cardsLength) {
+        const randomNumber = getRandomNumber(0, cardsLength)
 
-          if (!cardsIndexes.includes(randomNumber)) {
-            cardsIndexes.push(randomNumber)
-          }
+        if (!cardsIndexes.includes(randomNumber)) {
+          cardsIndexes.push(randomNumber)
         }
-        setCardsOrder([...cardsIndexes])
       }
+
+      return cardsIndexes
     }
-  }
+  }, [isPlayMode])
 
   useEffect(() => {
-    randomizeCards()
+    if (generateRandomOrderCards && isPlayMode) {
+      setCardsOrder(generateRandomOrderCards)
+      setRandomCards(generateRandomOrderCards)
+    }
   }, [isPlayMode])
 
   return (
@@ -52,7 +55,14 @@ const CardList: FC = () => {
             {cards?.map((card, i) => {
               const index = cardsOrder[i]
 
-              return <CardItem key={card.word} card={cards[index]} />
+              return (
+                <CardItem
+                  key={card.word}
+                  card={cards[index]}
+                  randomCards={randomCards}
+                  index={i}
+                />
+              )
             })}
           </>
         ) : (
