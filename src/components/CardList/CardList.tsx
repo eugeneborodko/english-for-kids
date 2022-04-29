@@ -67,8 +67,8 @@ const CardList: FC = () => {
           </>
         ) : (
           <>
-            {cards?.map((card) => (
-              <CardItem key={card.word} card={card} />
+            {cards?.map((card, i) => (
+              <CardItem key={card.word} card={card} randomCards={randomCards} index={i} />
             ))}
           </>
         )}

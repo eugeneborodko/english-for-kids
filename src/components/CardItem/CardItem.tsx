@@ -25,7 +25,7 @@ const CardItem: FC<CardItemProps> = ({ card, randomCards, index }) => {
   return (
     <>
       {isPlayMode ? (
-        <PlayCard card={card} ref={audioRef} />
+        <PlayCard card={card} ref={audioRef} index={index} cardToSelect={randomCards?.[0]} />
       ) : (
         <TrainCard card={card} ref={audioRef} />
       )}
