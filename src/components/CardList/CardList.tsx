@@ -1,11 +1,12 @@
-import { FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
+import { FC, ReactNode, useContext, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext, ContextProps } from '../../context'
 import { getRandomNumber } from '../../helpers/getRandomNumber'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { useFetchCardsQuery } from '../../services/CardsService'
-import CardItem from '../CardItem/CardItem'
+import PlayCard from '../PlayCard/PlayCard'
 import Spinner from '../Spinner/Spinner'
+import TrainCard from '../TrainCard/TrainCard'
 import classes from './CardList.module.scss'
 
 type CardsPageParams = {
@@ -18,9 +19,13 @@ const CardList: FC = () => {
   const [cardsOrder, setCardsOrder] = useState<number[]>([])
   const [randomCards, setRandomCards] = useState<number[]>([])
   const { id } = useParams<CardsPageParams>()
-  const { data: cards, error, isLoading } = useFetchCardsQuery(currentCategory || id)
+  const {
+    data: cards,
+    error,
+    isLoading,
+  } = useFetchCardsQuery(currentCategory || id)
 
-  const generateRandomOrderCards = useMemo(() => {
+  useMemo(() => {
     const cardsLength = cards?.length || 8
 
     if (!!cardsLength) {
@@ -34,14 +39,8 @@ const CardList: FC = () => {
         }
       }
 
-      return cardsIndexes
-    }
-  }, [isPlayMode])
-
-  useEffect(() => {
-    if (generateRandomOrderCards && isPlayMode) {
-      setCardsOrder(generateRandomOrderCards)
-      setRandomCards(generateRandomOrderCards)
+      setCardsOrder(cardsIndexes)
+      setRandomCards(cardsIndexes)
     }
   }, [isPlayMode])
 
@@ -50,28 +49,20 @@ const CardList: FC = () => {
       {isLoading && <Spinner />}
       {error && <div>{error as ReactNode}</div>}
       <div className={classes.cardList}>
-        {!!cardsOrder.length ? (
-          <>
-            {cards?.map((card, i) => {
-              const index = cardsOrder[i]
+        {cards?.map((card, i) => {
+          const index = cardsOrder[i]
 
-              return (
-                <CardItem
-                  key={card.word}
-                  card={cards[index]}
-                  randomCards={randomCards}
-                  index={i}
-                />
-              )
-            })}
-          </>
-        ) : (
-          <>
-            {cards?.map((card, i) => (
-              <CardItem key={card.word} card={card} randomCards={randomCards} index={i} />
-            ))}
-          </>
-        )}
+          return isPlayMode ? (
+            <PlayCard
+              card={cards[index]}
+              index={i}
+              cardToSelect={randomCards?.[0]}
+              randomCards={randomCards}
+            />
+          ) : (
+            <TrainCard card={card} />
+          )
+        })}
       </div>
     </>
   )
