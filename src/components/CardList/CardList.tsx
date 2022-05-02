@@ -17,7 +17,8 @@ const CardList: FC = () => {
   const { isPlayMode } = useTypedSelector((state) => state.gameMode)
   const { currentCategory } = useContext(AppContext) as ContextProps
   const [cardsOrder, setCardsOrder] = useState<number[]>([])
-  const [randomCards, setRandomCards] = useState<number[]>([])
+  const [randomCards, setRandomCards] = useState<number[] | undefined>([])
+  const [streak, setStreak] = useState<number>(0)
   const { id } = useParams<CardsPageParams>()
   const {
     data: cards,
@@ -51,13 +52,16 @@ const CardList: FC = () => {
       <div className={classes.cardList}>
         {cards?.map((card, i) => {
           const index = cardsOrder[i]
+          const cardToSelect = randomCards ? randomCards.length - 1 : 0
 
           return isPlayMode ? (
             <PlayCard
               card={cards[index]}
               index={i}
-              cardToSelect={randomCards?.[0]}
+              cardToSelect={randomCards?.[cardToSelect]}
               randomCards={randomCards}
+              setRandomCards={setRandomCards}
+              setStreak={setStreak}
             />
           ) : (
             <TrainCard card={card} />

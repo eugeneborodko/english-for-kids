@@ -5,15 +5,19 @@ import classes from './PlayCard.module.scss'
 interface PlayCardProps {
   card: Card
   index: number
-  cardToSelect: number
+  cardToSelect: number | undefined
   randomCards?: number[]
+  setRandomCards?: (arr: number[] | undefined) => void
+  setStreak?: (num: number | ((num: number) => number)) => void
 }
 
 const PlayCard: FC<PlayCardProps> = ({
   card,
   index,
   cardToSelect,
-  randomCards
+  randomCards,
+  setRandomCards,
+  setStreak,
 }) => {
   const selectedCardRef = useRef<HTMLAudioElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -21,11 +25,32 @@ const PlayCard: FC<PlayCardProps> = ({
 
   const onPlayCardClick = () => {
     selectedCardRef.current?.play()
+    setTimeout(() => {
+      if (isCorrectWord) {
+        const indexToRemove = randomCards ? randomCards?.length - 1 : 0
+        const withoutLastIndex = randomCards?.filter(
+          (_, i) => i !== indexToRemove
+        )
+        if (setRandomCards) {
+          setRandomCards(withoutLastIndex)
+        }
+        if (setStreak) {
+          setStreak((prev: number) => prev + 1)
+        }
+      } else {
+        if (setStreak) {
+          setStreak(0)
+        }
+      } 
+    }, 1000)
+    
   }
 
   useEffect(() => {
     if (isCorrectWord) {
-      audioRef.current?.play()
+      setTimeout(() => {
+        audioRef.current?.play()
+      }, 500)
     }
   }, [randomCards])
 
@@ -44,9 +69,9 @@ const PlayCard: FC<PlayCardProps> = ({
       />
       {isCorrectWord ? (
         <audio src="audio/correct.mp3" ref={selectedCardRef} />
-       ) : ( 
+      ) : (
         <audio src="audio/error.mp3" ref={selectedCardRef} />
-       )}
+      )}
     </div>
   )
 }
