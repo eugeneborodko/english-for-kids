@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef, useState } from 'react'
+import { useActions } from '../../hooks/useActions'
 import { Card } from '../../models/Card'
 import { Star } from '../../models/Star'
 import classes from './PlayCard.module.scss'
@@ -12,6 +13,7 @@ interface PlayCardProps {
   setStreak?: (num: number | ((num: number) => number)) => void
   setStars: (star: Star) => void
   stars: Star
+  setIsModalOpened: (bool: boolean) => void
 }
 
 const PlayCard: FC<PlayCardProps> = ({
@@ -22,8 +24,10 @@ const PlayCard: FC<PlayCardProps> = ({
   setRandomCards,
   setStreak,
   setStars,
-  stars
+  stars,
+  setIsModalOpened
 }) => {
+  const { setIsPlayMode } = useActions()
   const [isGuessed, setIsGuessed] = useState<boolean>(false)
   const selectedCardRef = useRef<HTMLAudioElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -38,8 +42,10 @@ const PlayCard: FC<PlayCardProps> = ({
     if (isGuessed) {
       return 
     }
+    
     selectedCardRef.current?.play()
       if (isCorrectWord) {
+       
         setIsGuessed(true)
         setStars({...stars, correct: [...stars.correct, true]})
         setTimeout(() => {
@@ -52,6 +58,10 @@ const PlayCard: FC<PlayCardProps> = ({
           }
           if (setStreak) {
             setStreak((prev: number) => prev + 1)
+          }
+          if (randomCards?.length === 1) {
+            setIsModalOpened(true)
+            setIsPlayMode()
           }
         }, 1000)
         

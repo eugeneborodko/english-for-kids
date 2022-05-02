@@ -9,6 +9,7 @@ import Spinner from '../Spinner/Spinner'
 import TrainCard from '../TrainCard/TrainCard'
 import { Star } from '../../models/Star'
 import classes from './CardList.module.scss'
+import Modal from '../Modal/Modal'
 
 type CardsPageParams = {
   id: string
@@ -20,7 +21,8 @@ const CardList: FC = () => {
   const [cardsOrder, setCardsOrder] = useState<number[]>([])
   const [randomCards, setRandomCards] = useState<number[] | undefined>([])
   const [streak, setStreak] = useState<number>(0)
-  const [stars, setStars] = useState<Star>({correct: [], mistakes: 0})
+  const [stars, setStars] = useState<Star>({ correct: [], mistakes: 0 })
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
   const { id } = useParams<CardsPageParams>()
   const {
     data: cards,
@@ -51,14 +53,15 @@ const CardList: FC = () => {
     <>
       {isLoading && <Spinner />}
       {error && <div>{error as ReactNode}</div>}
-        {stars.correct.map((star) => {
-          const src = star ? 'star-win' : 'star'
-          return (
-            <img src={`images/${src}.svg`} alt="star" />
-          )
-        })}
-        <h1>mistakes: {stars.mistakes}</h1>
-        
+      {isPlayMode && (
+        <>
+          {stars.correct.map((star) => {
+            const src = star ? 'star-win' : 'star'
+            return <img src={`images/${src}.svg`} alt="star" />
+          })}
+        </>
+      )}
+
       <div className={classes.cardList}>
         {cards?.map((card, i) => {
           const index = cardsOrder[i]
@@ -74,12 +77,32 @@ const CardList: FC = () => {
               setStreak={setStreak}
               stars={stars}
               setStars={setStars}
+              setIsModalOpened={setIsModalOpened}
             />
           ) : (
             <TrainCard card={card} />
           )
         })}
       </div>
+      <Modal isOpen={isModalOpened} setIsOpen={setIsModalOpened}>
+        {cardsOrder && (
+          <>
+            {streak === cardsOrder.length ? (
+              <div className={classes.modalContent}>
+                <h2 className={classes.modalTitle}>Congratulations!</h2>
+                <img src="images/success.jpg" alt="success" />
+              </div>
+            ) : (
+              <div className={classes.modalContent}>
+                <h2 className={classes.modalTitle}>
+                  You made {stars.mistakes} mistakes. Please, try again.
+                </h2>
+                <img src="images/failure.jpg" alt="failure" />
+              </div>
+            )}
+          </>
+        )}
+      </Modal>
     </>
   )
 }
