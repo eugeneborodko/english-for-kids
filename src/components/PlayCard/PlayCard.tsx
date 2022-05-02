@@ -1,5 +1,6 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Card } from '../../models/Card'
+import { Star } from '../../models/Star'
 import classes from './PlayCard.module.scss'
 
 interface PlayCardProps {
@@ -9,6 +10,8 @@ interface PlayCardProps {
   randomCards?: number[]
   setRandomCards?: (arr: number[] | undefined) => void
   setStreak?: (num: number | ((num: number) => number)) => void
+  setStars: (star: Star) => void
+  stars: Star
 }
 
 const PlayCard: FC<PlayCardProps> = ({
@@ -18,32 +21,46 @@ const PlayCard: FC<PlayCardProps> = ({
   randomCards,
   setRandomCards,
   setStreak,
+  setStars,
+  stars
 }) => {
+  const [isGuessed, setIsGuessed] = useState<boolean>(false)
   const selectedCardRef = useRef<HTMLAudioElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const isCorrectWord = cardToSelect === index
+  const cardClass = [classes.card]
+
+  if (isGuessed) {
+    cardClass.push(classes.guessed)
+  }
 
   const onPlayCardClick = () => {
+    if (isGuessed) {
+      return 
+    }
     selectedCardRef.current?.play()
-    setTimeout(() => {
       if (isCorrectWord) {
-        const indexToRemove = randomCards ? randomCards?.length - 1 : 0
-        const withoutLastIndex = randomCards?.filter(
-          (_, i) => i !== indexToRemove
-        )
-        if (setRandomCards) {
-          setRandomCards(withoutLastIndex)
-        }
-        if (setStreak) {
-          setStreak((prev: number) => prev + 1)
-        }
+        setIsGuessed(true)
+        setStars({...stars, correct: [...stars.correct, true]})
+        setTimeout(() => {
+          const indexToRemove = randomCards ? randomCards?.length - 1 : 0
+          const withoutLastIndex = randomCards?.filter(
+            (_, i) => i !== indexToRemove
+          )
+          if (setRandomCards) {
+            setRandomCards(withoutLastIndex)
+          }
+          if (setStreak) {
+            setStreak((prev: number) => prev + 1)
+          }
+        }, 1000)
+        
       } else {
         if (setStreak) {
           setStreak(0)
         }
-      } 
-    }, 1000)
-    
+        setStars({...stars, correct: [...stars.correct, false], mistakes: stars.mistakes + 1})
+      }
   }
 
   useEffect(() => {
@@ -55,13 +72,18 @@ const PlayCard: FC<PlayCardProps> = ({
   }, [randomCards])
 
   return (
-    <div className={classes.card} onClick={onPlayCardClick}>
-      <img
-        src={`images/${card.image}`}
-        width="100%"
-        height="200"
-        alt={card.word}
-      />
+    <div className={cardClass.join(' ')} onClick={onPlayCardClick}>
+      {isGuessed ? (
+        <img className={classes.image} src={`images/v.png`} width="300" height="200" alt={card.word} />
+      ) : (
+        <img
+          src={`images/${card.image}`}
+          width="100%"
+          height="200"
+          alt={card.word}
+        />
+      )}
+
       <audio
         className={classes.audio}
         src={`audio/${card.audioSrc}`}

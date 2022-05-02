@@ -7,3 +7,15 @@
     transform: scale(1.05);
   }
 }
+
+.guessed {
+  cursor: default;
+
+  &:hover {
+    transform: scale(1);
+  }
+}
+
+.image {
+  object-fit: fill;
+}

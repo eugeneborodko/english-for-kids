@@ -7,6 +7,7 @@ import { useFetchCardsQuery } from '../../services/CardsService'
 import PlayCard from '../PlayCard/PlayCard'
 import Spinner from '../Spinner/Spinner'
 import TrainCard from '../TrainCard/TrainCard'
+import { Star } from '../../models/Star'
 import classes from './CardList.module.scss'
 
 type CardsPageParams = {
@@ -19,6 +20,7 @@ const CardList: FC = () => {
   const [cardsOrder, setCardsOrder] = useState<number[]>([])
   const [randomCards, setRandomCards] = useState<number[] | undefined>([])
   const [streak, setStreak] = useState<number>(0)
+  const [stars, setStars] = useState<Star>({correct: [], mistakes: 0})
   const { id } = useParams<CardsPageParams>()
   const {
     data: cards,
@@ -49,6 +51,14 @@ const CardList: FC = () => {
     <>
       {isLoading && <Spinner />}
       {error && <div>{error as ReactNode}</div>}
+        {stars.correct.map((star) => {
+          const src = star ? 'star-win' : 'star'
+          return (
+            <img src={`images/${src}.svg`} alt="star" />
+          )
+        })}
+        <h1>mistakes: {stars.mistakes}</h1>
+        
       <div className={classes.cardList}>
         {cards?.map((card, i) => {
           const index = cardsOrder[i]
@@ -62,6 +72,8 @@ const CardList: FC = () => {
               randomCards={randomCards}
               setRandomCards={setRandomCards}
               setStreak={setStreak}
+              stars={stars}
+              setStars={setStars}
             />
           ) : (
             <TrainCard card={card} />
