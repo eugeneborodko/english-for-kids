@@ -25,7 +25,7 @@ const PlayCard: FC<PlayCardProps> = ({
   setStreak,
   setStars,
   stars,
-  setIsModalOpened
+  setIsModalOpened,
 }) => {
   const { setIsPlayMode } = useActions()
   const [isGuessed, setIsGuessed] = useState<boolean>(false)
@@ -40,37 +40,39 @@ const PlayCard: FC<PlayCardProps> = ({
 
   const onPlayCardClick = () => {
     if (isGuessed) {
-      return 
+      return
     }
-    
+
     selectedCardRef.current?.play()
-      if (isCorrectWord) {
-       
-        setIsGuessed(true)
-        setStars({...stars, correct: [...stars.correct, true]})
-        setTimeout(() => {
-          const indexToRemove = randomCards ? randomCards?.length - 1 : 0
-          const withoutLastIndex = randomCards?.filter(
-            (_, i) => i !== indexToRemove
-          )
-          if (setRandomCards) {
-            setRandomCards(withoutLastIndex)
-          }
-          if (setStreak) {
-            setStreak((prev: number) => prev + 1)
-          }
-          if (randomCards?.length === 1) {
-            setIsModalOpened(true)
-            setIsPlayMode()
-          }
-        }, 1000)
-        
-      } else {
-        if (setStreak) {
-          setStreak(0)
+    if (isCorrectWord) {
+      setIsGuessed(true)
+      setStars({ ...stars, correct: [...stars.correct, true] })
+      setTimeout(() => {
+        const indexToRemove = randomCards ? randomCards?.length - 1 : 0
+        const withoutLastIndex = randomCards?.filter(
+          (_, i) => i !== indexToRemove
+        )
+        if (setRandomCards) {
+          setRandomCards(withoutLastIndex)
         }
-        setStars({...stars, correct: [...stars.correct, false], mistakes: stars.mistakes + 1})
+        if (setStreak) {
+          setStreak((prev: number) => prev + 1)
+        }
+        if (randomCards?.length === 1) {
+          setIsModalOpened(true)
+          setIsPlayMode()
+        }
+      }, 1000)
+    } else {
+      if (setStreak) {
+        setStreak(0)
       }
+      setStars({
+        ...stars,
+        correct: [...stars.correct, false],
+        mistakes: stars.mistakes + 1,
+      })
+    }
   }
 
   useEffect(() => {
@@ -84,7 +86,13 @@ const PlayCard: FC<PlayCardProps> = ({
   return (
     <div className={cardClass.join(' ')} onClick={onPlayCardClick}>
       {isGuessed ? (
-        <img className={classes.image} src={`images/v.png`} width="300" height="200" alt={card.word} />
+        <img
+          className={classes.image}
+          src={`images/v.png`}
+          width="300"
+          height="200"
+          alt={card.word}
+        />
       ) : (
         <img
           src={`images/${card.image}`}

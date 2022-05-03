@@ -1,4 +1,12 @@
-import { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  FC,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext, ContextProps } from '../../context'
 import { getRandomNumber } from '../../helpers/getRandomNumber'
@@ -96,7 +104,12 @@ const CardList: FC = () => {
       ) : (
         <audio src="audio/failure.mp3" ref={gameResultRef} />
       )}
-      <Modal isOpen={isModalOpened} setIsOpen={setIsModalOpened}>
+      <Modal
+        isOpen={isModalOpened}
+        setIsOpen={setIsModalOpened}
+        setStars={setStars}
+        setStreak={setStreak}
+      >
         {cardsOrder && (
           <>
             {streak === cardsOrder.length ? (
