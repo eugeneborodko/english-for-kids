@@ -1,4 +1,4 @@
-import { FC, ReactNode, useContext, useMemo, useState } from 'react'
+import { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext, ContextProps } from '../../context'
 import { getRandomNumber } from '../../helpers/getRandomNumber'
@@ -23,6 +23,7 @@ const CardList: FC = () => {
   const [streak, setStreak] = useState<number>(0)
   const [stars, setStars] = useState<Star>({ correct: [], mistakes: 0 })
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
+  const gameResultRef = useRef<HTMLAudioElement>(null)
   const { id } = useParams<CardsPageParams>()
   const {
     data: cards,
@@ -48,6 +49,12 @@ const CardList: FC = () => {
       setRandomCards(cardsIndexes)
     }
   }, [isPlayMode])
+
+  useEffect(() => {
+    if (isModalOpened) {
+      gameResultRef.current?.play()
+    }
+  }, [streak])
 
   return (
     <>
@@ -84,6 +91,11 @@ const CardList: FC = () => {
           )
         })}
       </div>
+      {isModalOpened && streak === cardsOrder.length ? (
+        <audio src="audio/success.mp3" ref={gameResultRef} />
+      ) : (
+        <audio src="audio/failure.mp3" ref={gameResultRef} />
+      )}
       <Modal isOpen={isModalOpened} setIsOpen={setIsModalOpened}>
         {cardsOrder && (
           <>
