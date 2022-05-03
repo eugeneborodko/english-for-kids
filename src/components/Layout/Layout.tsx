@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react'
 import Container from '../Container/Container'
 import Header from '../Header/Header'
+import Menu from '../Menu/Menu'
 
 interface LayoutProps {
   children: ReactNode
@@ -9,6 +10,7 @@ interface LayoutProps {
 const Layout: FC<LayoutProps> = ({children}) => {
   return (
     <Container>
+      <Menu />
       <Header />
       {children}
     </Container>

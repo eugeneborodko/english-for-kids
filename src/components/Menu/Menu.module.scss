@@ -1,0 +1,43 @@
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  transform: translateX(-400px);
+  padding: 110px 20px 0;
+  max-width: 380px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(40deg, #00bf82, #0099ae);
+  transition: transform 0.8s;
+}
+
+.opened {
+  transform: translateX(0);
+}
+
+.playMode {
+  background: linear-gradient(40deg, #ffd86f, #fc6262);
+}
+
+.link {
+  color: #ffffff;
+  font-size: 28px;
+  line-height: 80px;
+  text-align: center;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.active {
+  pointer-events: all;
+}
