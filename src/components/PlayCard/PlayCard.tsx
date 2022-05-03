@@ -62,7 +62,6 @@ const PlayCard: FC<PlayCardProps> = ({
 
   const onWrongWordClick = () => {
     const newStars = {
-      ...stars,
       correct: [...stars.correct, false],
       mistakes: stars.mistakes + 1,
     }

@@ -35,7 +35,9 @@ const CardList: FC = () => {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
   const gameResultRef = useRef<HTMLAudioElement>(null)
   const { id } = useParams<CardsPageParams>()
-  const gameResultAudioSrc = `audio/${!stars.mistakes ? 'success' : 'failure'}.mp3`
+  const gameResultAudioSrc = `audio/${
+    !stars.mistakes ? 'success' : 'failure'
+  }.mp3`
 
   const {
     data: cards,
@@ -67,6 +69,10 @@ const CardList: FC = () => {
       gameResultRef.current?.play()
     }
   }, [isModalOpened])
+
+  useEffect(() => {
+    if (isPlayMode) setStars({ correct: [], mistakes: 0 })
+  }, [isPlayMode])
 
   return (
     <Container>
@@ -100,13 +106,17 @@ const CardList: FC = () => {
         setIsOpen={setIsModalOpened}
         setStars={setStars}
       >
-        {!stars.mistakes ? (
-          <GameResult title="Congratulations" src="success" />
-        ) : (
-          <GameResult
-            title={`You made ${stars.mistakes} mistakes. Please, try again.`}
-            src="failure"
-          />
+        {isModalOpened && (
+          <>
+            {!!stars.mistakes ? (
+              <GameResult
+                title={`You made ${stars.mistakes} mistakes. Please, try again.`}
+                src="failure"
+              />
+            ) : (
+              <GameResult title="Congratulations" src="success" />
+            )}
+          </>
         )}
       </Modal>
     </Container>
