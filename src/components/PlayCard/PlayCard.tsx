@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { useActions } from '../../hooks/useActions'
 import { Card } from '../../models/Card'
 import { Star } from '../../models/Star'
+import CardImage from '../CardImage/CardImage'
 import classes from './PlayCard.module.scss'
 
 interface PlayCardProps {
@@ -10,7 +11,6 @@ interface PlayCardProps {
   cardToSelect: number | undefined
   randomCards?: number[]
   setRandomCards?: (arr: number[] | undefined) => void
-  setStreak?: (num: number | ((num: number) => number)) => void
   setStars: (star: Star) => void
   stars: Star
   setIsModalOpened: (bool: boolean) => void
@@ -21,10 +21,9 @@ const PlayCard: FC<PlayCardProps> = ({
   index,
   cardToSelect,
   randomCards,
-  setRandomCards,
-  setStreak,
-  setStars,
   stars,
+  setRandomCards,
+  setStars,
   setIsModalOpened,
 }) => {
   const { setIsPlayMode } = useActions()
@@ -32,10 +31,42 @@ const PlayCard: FC<PlayCardProps> = ({
   const selectedCardRef = useRef<HTMLAudioElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const isCorrectWord = cardToSelect === index
+  const imageSrc = isGuessed ? 'v.png' : card.image
+  const imageWidth = isGuessed ? 300 : '100%'
+  const audioSrc = isCorrectWord ? 'correct' : 'error'
   const cardClass = [classes.card]
 
   if (isGuessed) {
     cardClass.push(classes.guessed)
+  }
+
+  const openModal = () => {
+    const indexToRemove = randomCards ? randomCards?.length - 1 : 0
+    const withoutLastIndex = randomCards?.filter((_, i) => i !== indexToRemove)
+    if (setRandomCards) {
+      setRandomCards(withoutLastIndex)
+    }
+    if (randomCards?.length === 1) {
+      setIsModalOpened(true)
+      setIsPlayMode()
+    }
+  }
+
+  const onCorrectWordClick = () => {
+    const newStars = { ...stars, correct: [...stars.correct, true] }
+    setStars(newStars)
+    setIsGuessed(true)
+
+    setTimeout(openModal, 1000)
+  }
+
+  const onWrongWordClick = () => {
+    const newStars = {
+      ...stars,
+      correct: [...stars.correct, false],
+      mistakes: stars.mistakes + 1,
+    }
+    setStars(newStars)
   }
 
   const onPlayCardClick = () => {
@@ -44,34 +75,11 @@ const PlayCard: FC<PlayCardProps> = ({
     }
 
     selectedCardRef.current?.play()
+
     if (isCorrectWord) {
-      setIsGuessed(true)
-      setStars({ ...stars, correct: [...stars.correct, true] })
-      setTimeout(() => {
-        const indexToRemove = randomCards ? randomCards?.length - 1 : 0
-        const withoutLastIndex = randomCards?.filter(
-          (_, i) => i !== indexToRemove
-        )
-        if (setRandomCards) {
-          setRandomCards(withoutLastIndex)
-        }
-        if (setStreak) {
-          setStreak((prev: number) => prev + 1)
-        }
-        if (randomCards?.length === 1) {
-          setIsModalOpened(true)
-          setIsPlayMode()
-        }
-      }, 1000)
+      onCorrectWordClick()
     } else {
-      if (setStreak) {
-        setStreak(0)
-      }
-      setStars({
-        ...stars,
-        correct: [...stars.correct, false],
-        mistakes: stars.mistakes + 1,
-      })
+      onWrongWordClick()
     }
   }
 
@@ -85,33 +93,13 @@ const PlayCard: FC<PlayCardProps> = ({
 
   return (
     <div className={cardClass.join(' ')} onClick={onPlayCardClick}>
-      {isGuessed ? (
-        <img
-          className={classes.image}
-          src={`images/v.png`}
-          width="300"
-          height="200"
-          alt={card.word}
-        />
-      ) : (
-        <img
-          src={`images/${card.image}`}
-          width="100%"
-          height="200"
-          alt={card.word}
-        />
-      )}
-
+      <CardImage src={imageSrc} width={imageWidth} height={200} />
       <audio
         className={classes.audio}
         src={`audio/${card.audioSrc}`}
         ref={audioRef}
       />
-      {isCorrectWord ? (
-        <audio src="audio/correct.mp3" ref={selectedCardRef} />
-      ) : (
-        <audio src="audio/error.mp3" ref={selectedCardRef} />
-      )}
+      <audio src={`audio/${audioSrc}.mp3`} ref={selectedCardRef} />
     </div>
   )
 }

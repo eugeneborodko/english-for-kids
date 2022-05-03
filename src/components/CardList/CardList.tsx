@@ -18,6 +18,9 @@ import TrainCard from '../TrainCard/TrainCard'
 import { Star } from '../../models/Star'
 import classes from './CardList.module.scss'
 import Modal from '../Modal/Modal'
+import StarList from '../StarList/StarList'
+import Container from '../Container/Container'
+import GameResult from '../GameResult/GameResult'
 
 type CardsPageParams = {
   id: string
@@ -28,11 +31,12 @@ const CardList: FC = () => {
   const { currentCategory } = useContext(AppContext) as ContextProps
   const [cardsOrder, setCardsOrder] = useState<number[]>([])
   const [randomCards, setRandomCards] = useState<number[] | undefined>([])
-  const [streak, setStreak] = useState<number>(0)
   const [stars, setStars] = useState<Star>({ correct: [], mistakes: 0 })
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
   const gameResultRef = useRef<HTMLAudioElement>(null)
   const { id } = useParams<CardsPageParams>()
+  const gameResultAudioSrc = `audio/${!stars.mistakes ? 'success' : 'failure'}.mp3`
+
   const {
     data: cards,
     error,
@@ -62,21 +66,13 @@ const CardList: FC = () => {
     if (isModalOpened) {
       gameResultRef.current?.play()
     }
-  }, [streak])
+  }, [isModalOpened])
 
   return (
-    <>
+    <Container>
       {isLoading && <Spinner />}
       {error && <div>{error as ReactNode}</div>}
-      {isPlayMode && (
-        <>
-          {stars.correct.map((star) => {
-            const src = star ? 'star-win' : 'star'
-            return <img src={`images/${src}.svg`} alt="star" />
-          })}
-        </>
-      )}
-
+      {isPlayMode && <StarList stars={stars} />}
       <div className={classes.cardList}>
         {cards?.map((card, i) => {
           const index = cardsOrder[i]
@@ -89,7 +85,6 @@ const CardList: FC = () => {
               cardToSelect={randomCards?.[cardToSelect]}
               randomCards={randomCards}
               setRandomCards={setRandomCards}
-              setStreak={setStreak}
               stars={stars}
               setStars={setStars}
               setIsModalOpened={setIsModalOpened}
@@ -99,36 +94,22 @@ const CardList: FC = () => {
           )
         })}
       </div>
-      {isModalOpened && streak === cardsOrder.length ? (
-        <audio src="audio/success.mp3" ref={gameResultRef} />
-      ) : (
-        <audio src="audio/failure.mp3" ref={gameResultRef} />
-      )}
+      <audio src={gameResultAudioSrc} ref={gameResultRef} />
       <Modal
         isOpen={isModalOpened}
         setIsOpen={setIsModalOpened}
         setStars={setStars}
-        setStreak={setStreak}
       >
-        {cardsOrder && (
-          <>
-            {streak === cardsOrder.length ? (
-              <div className={classes.modalContent}>
-                <h2 className={classes.modalTitle}>Congratulations!</h2>
-                <img src="images/success.jpg" alt="success" />
-              </div>
-            ) : (
-              <div className={classes.modalContent}>
-                <h2 className={classes.modalTitle}>
-                  You made {stars.mistakes} mistakes. Please, try again.
-                </h2>
-                <img src="images/failure.jpg" alt="failure" />
-              </div>
-            )}
-          </>
+        {!stars.mistakes ? (
+          <GameResult title="Congratulations" src="success" />
+        ) : (
+          <GameResult
+            title={`You made ${stars.mistakes} mistakes. Please, try again.`}
+            src="failure"
+          />
         )}
       </Modal>
-    </>
+    </Container>
   )
 }
 

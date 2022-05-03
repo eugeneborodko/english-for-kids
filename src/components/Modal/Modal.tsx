@@ -1,16 +1,15 @@
-import { FC, MouseEvent, ReactNode, useEffect } from 'react'
+import { FC, MouseEvent, ReactNode } from 'react'
 import { Star } from '../../models/Star'
 import classes from './Modal.module.scss'
 
 interface ModalProps {
   isOpen: boolean
   setIsOpen: (bool: boolean) => void
-  children: ReactNode
   setStars: (star: Star) => void
-  setStreak: (streak: number) => void
+  children: ReactNode
 }
 
-const Modal: FC<ModalProps> = ({isOpen, setIsOpen, setStars, setStreak, children}) => {
+const Modal: FC<ModalProps> = ({isOpen, setIsOpen, setStars, children}) => {
   const modalClass = [classes.modal]
 
   if (isOpen) {
@@ -20,7 +19,6 @@ const Modal: FC<ModalProps> = ({isOpen, setIsOpen, setStars, setStreak, children
   const onModalClose = () => {
     setIsOpen(false)
     setStars({ correct: [], mistakes: 0 })
-    setStreak(0)
   }
 
   const onModalContentClick = (e: MouseEvent<HTMLDivElement>) => {
